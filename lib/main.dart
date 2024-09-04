@@ -3,7 +3,7 @@ import 'my_container.dart';
 
 void main() {
   runApp(
-    const MaterialApp(
+    MaterialApp(
       home: Scaffold(
         // backgroundColor: Colors.cyan[200],
         body: MyContainer(colors: [

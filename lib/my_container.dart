@@ -1,22 +1,32 @@
 import 'dart:developer';
-
+import 'dart:math';
 import 'package:flutter/material.dart';
-import 'my_custom_text.dart';
 
-class MyContainer extends StatelessWidget {
+class MyContainer extends StatefulWidget {
   final List<Color> colors;
 
-  const MyContainer({
-    Key? key,
+  MyContainer({
+    super.key,
     required this.colors,
-  }) : super(key: key);
+  });
+
+  @override
+  State<MyContainer> createState() => _MyContainerState();
+}
+
+class _MyContainerState extends State<MyContainer> {
+  var image = Image.asset(
+    "images/dice-1.png",
+    width: 100,
+    height: 100,
+  );
 
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
         gradient: LinearGradient(
-            colors: colors,
+            colors: widget.colors,
             begin: Alignment.topLeft,
             end: Alignment.bottomRight),
       ),
@@ -27,30 +37,41 @@ class MyContainer extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Image.asset(
-                "images/dice-1.png",
-                width: 100,
-                height: 100,
-              ),
-              Image.asset(
-                "images/dice-2.png",
-                width: 100,
-                height: 100,
-              ),
-              Image.asset(
-                "images/dice-3.png",
-                width: 100,
-                height: 100,
+              image,
+              const SizedBox(
+                height: 40,
               ),
               OutlinedButton.icon(
-                label: const Text("click me"),
-                icon: const Icon(Icons.add),
+                style: OutlinedButton.styleFrom(
+                  foregroundColor: const Color.fromARGB(255, 0, 0, 0),
+                  backgroundColor: const Color.fromARGB(255, 52, 205, 225),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  textStyle: const TextStyle(
+                    fontSize: 25,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                label: const Text("Roll Dice"),
+                icon: const Icon(Icons.casino),
                 onPressed: () {
-                  log("clicked");
+                  rollDice();
                 },
               ),
             ],
           )),
     );
+  }
+
+  void rollDice() {
+    var random = Random().nextInt(6) + 1;
+    setState(() {
+      image = Image.asset(
+        "images/dice-$random.png",
+        width: 100,
+        height: 100,
+      );
+    });
   }
 }
